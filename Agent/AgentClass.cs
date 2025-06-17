@@ -33,18 +33,18 @@ namespace Agent
                         else word_count[clean_word] = 1;
                     }
                 }
-                foreach (var word in word_count)
+                foreach (KeyValuePair<string, int> word in word_count)
                 {
-                    file_data.Add($"{file_path}:{word.Key}:{word.Value}");
+                    file_data.Add($"{Path.GetFileName(file_path)}:{word.Key}:{word.Value}");
                 }
                 Console.WriteLine("Done.");
             }
         }
 
-        public async void SendProcessedData()
+        public async Task SendProcessedData()
         {
             Console.WriteLine("Sending data to Master process");
-            using var pipe = new NamedPipeClientStream(".", this.pipe_name, PipeDirection.Out);
+            using var pipe = new NamedPipeClientStream(".", pipe_name, PipeDirection.Out);
             await pipe.ConnectAsync();
 
             using var writer = new StreamWriter(pipe) { AutoFlush = true };

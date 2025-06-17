@@ -20,4 +20,4 @@ if (!Directory.Exists(directory))
 
 AgentClass agent = new AgentClass(directory, pipe_name);
 agent.ReadFiles();
-agent.SendProcessedData();
+await agent.SendProcessedData();
